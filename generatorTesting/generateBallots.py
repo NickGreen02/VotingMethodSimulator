@@ -1,4 +1,4 @@
-from random import sample
+from random import sample, randint
 
 def generateBallots(totalCandVariation):
     baseCandAsc = 65
@@ -19,7 +19,7 @@ def generateBallots(totalCandVariation):
             else:
                 textString += (" ".join(sample(candidates, len(candidates))))
     
-        file = open("./generatorTesting/ballot" + str(i) + ".txt", "w")
+        file = open("./generatorTesting/ballotFiles/ballot" + str(i) + ".txt", "w")
         file.write(textString)
         file.close()
 
