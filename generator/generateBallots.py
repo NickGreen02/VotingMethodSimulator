@@ -1,6 +1,13 @@
 from random import sample, randint
+from os import mkdir
 
 def generateBallots(totalCandVariation):
+    try:
+        mkdir('./generator/ballotFiles')
+    except FileExistsError:
+        print("ballots folder already exists")
+
+
     baseCandAsc = 65
     candAscArr = [65]
     candidates = []
