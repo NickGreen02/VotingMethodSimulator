@@ -1,24 +1,10 @@
-#read votes function - returns array containing each ballot
-def readVotes(f):
-    lines = f.read().splitlines()
-    votes = []
-
-    for ballot in lines:
-        votes.append(ballot.split(" "))
-
-    return(votes)
-
-
-
-
 #print winners function - gets candidate with highest points from dictionary, prints winner
 def printWinners(points):
     maxValue = max(points.values()) #get max value of points
 
-    print("Winner(s):")
     for i in points:
         if points.get(i) == maxValue:
-            print("Candidate " + i) #if candidate points value is winning value, print winning candidate
+            return(i) #if candidate points value is winning value, print winning candidate
 
 
 
@@ -34,16 +20,4 @@ def plurality(ballots):
             else:
                 if ballot.index(cand) == 0:
                     points[cand] = points[cand] + 1 #increment candidate value
-    printWinners(points)
-
-
-
-
-#main method
-def main():
-    ballotFile = open("ballots.txt")
-    votes = readVotes(ballotFile)
-    plurality(votes)
-    ballotFile.close()
-
-main()
+    return(printWinners(points))

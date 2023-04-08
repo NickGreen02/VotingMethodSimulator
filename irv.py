@@ -1,16 +1,3 @@
-#read votes function - returns array containing each ballot
-def readVotes(f):
-    lines = f.read().splitlines()
-    votes = []
-
-    for ballot in lines:
-        votes.append(ballot.split(" "))
-
-    return(votes)
-
-
-
-
 #get loser function - returns the candidate with lowest first choices
 def getLoser(points):
     minValue = min(points.values())
@@ -47,10 +34,8 @@ def irv(ballots):
                     points[cand] = points[cand] + 1
     for c in points:
         if points.get(c) > (numBallots/2):  #if majority, set flag var to true and print winner
-            print("Winner:")
-            print("Candidate " + c)
             majorityCheck = True
-            break
+            return(c)
         else:
             majorityCheck = False
     
@@ -59,17 +44,4 @@ def irv(ballots):
     if majorityCheck == False:
         loser = getLoser(points)
         newBallots = removeLoser(ballots, loser)
-        irv(newBallots)
-
-
-
-
-
-#main method
-def main():
-    ballotFile = open("ballots.txt")
-    votes = readVotes(ballotFile)
-    irv(votes)
-    ballotFile.close()
-
-main()
+        return(irv(newBallots))

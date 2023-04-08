@@ -1,16 +1,3 @@
-#read votes function - returns array containing each ballot
-def readVotes(f):
-    lines = f.read().splitlines()
-    votes = []
-
-    for ballot in lines:
-        votes.append(ballot.split(" "))
-
-    return(votes)
-
-
-
-
 #head-to-head function - simulates condorcet head to heads
 def head2head(ballots, candidate1, candidate2):
     cand1total = 0
@@ -60,7 +47,6 @@ def condorcet(ballots):
     maxValCount = 0
 
     #iterate through dictionary, checking that there is only one candidate who wins
-    print("Winner(s):")
     for i in points:
         if points.get(i) == maxValue:
             maxValCount += 1
@@ -69,17 +55,6 @@ def condorcet(ballots):
     if maxValCount == 1:
         for c in points:
             if (points.get(c) == maxValue) and (points.get("tie"+c) == 0):  #check that candidate points equal max points value and has no ties
-                print("Candidate " + c)
+                return(c)
     else:
-        print("No winner")
-
-
-
-#main method
-def main():
-    ballotFile = open("ballots.txt")
-    votes = readVotes(ballotFile)
-    condorcet(votes)
-    ballotFile.close()
-
-main()
+        return('')
