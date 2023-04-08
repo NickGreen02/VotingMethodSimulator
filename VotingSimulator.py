@@ -1,3 +1,4 @@
+from os import listdir
 import plurality
 import condorcet
 import borda
@@ -14,15 +15,20 @@ def readVotes(f):
     return(votes)
 
 def main():
-    ballotFile = open("ballots.txt")
-    votes = readVotes(ballotFile)
+    generatedPath = './generator/ballotFiles'
     
-    pluralityResult = plurality.plurality(votes)
-    condorcetResult = condorcet.condorcet(votes)
-    bordaResult = borda.borda(votes)
-    irvResult = irv.irv(votes)
+    files = listdir(generatedPath)
+    
+    for f in files:
+        ballotFile = open(generatedPath + '/' + f)
+        votes = readVotes(ballotFile)
+        
+        pluralityResult = plurality.plurality(votes)
+        condorcetResult = condorcet.condorcet(votes)
+        bordaResult = borda.borda(votes)
+        irvResult = irv.irv(votes)
 
-    results = {'plurality': pluralityResult, 'condorcet': condorcetResult, 'borda': bordaResult, 'irv': irvResult}
-    print(results)
+        results = {'plurality': pluralityResult, 'condorcet': condorcetResult, 'borda': bordaResult, 'irv': irvResult}
+        print(results)
 
 main()

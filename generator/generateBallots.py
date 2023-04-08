@@ -19,7 +19,7 @@ def generateBallots(totalCandVariation):
             else:
                 textString += (" ".join(sample(candidates, len(candidates))))
     
-        file = open("./generatorTesting/ballotFiles/ballot" + str(i) + ".txt", "w")
+        file = open("./generator/ballotFiles/ballot" + str(i) + ".txt", "w")
         file.write(textString)
         file.close()
 

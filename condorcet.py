@@ -56,5 +56,7 @@ def condorcet(ballots):
         for c in points:
             if (points.get(c) == maxValue) and (points.get("tie"+c) == 0):  #check that candidate points equal max points value and has no ties
                 return(c)
+            else:
+                return('')
     else:
         return('')
