@@ -15,9 +15,6 @@ def head2head(ballots, candidate1, candidate2):
     if cand1total == cand2total:
         return "tie"
 
-
-
-
 #condorcet function - initialises dictionary with candidates and tie values,
 #loops through ballots calling head-to-head helper function
 def condorcet(ballots):

@@ -9,16 +9,11 @@ def printWinners(points):
 
     return(winString)
 
-
-
 #process ballot function - assign points from ballots based on ranking
 def processBallot(points, ballot):
     ballotRev = ballot[::-1]    #reverse order of ballot, so highest ranked candidate is last
     for cand in ballotRev:
         points[cand] = points[cand] + (ballotRev.index(cand))   #assign points value based on index
-
-
-
 
 #borda function - initialises dictionary and calls helper function to assign points
 def borda(ballots):

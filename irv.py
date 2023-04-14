@@ -6,17 +6,11 @@ def getLoser(points):
             loser = c
     return(loser)
 
-
-
-
 #remove loser function - removes losing candidate from all ballots
 def removeLoser(ballots, loser):
     for ballot in ballots:
         ballot.remove(loser)
     return(ballots)
-
-
-
 
 #irv function - calculates winner based on IRV election system
 def irv(ballots):
