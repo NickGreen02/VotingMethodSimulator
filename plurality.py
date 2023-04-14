@@ -4,7 +4,7 @@ def printWinners(points):
 
     for i in points:
         if points.get(i) == maxValue:
-            return(i) #if candidate points value is winning value, print winning candidate
+            return i #if candidate points value is winning value, print winning candidate
 
 #plurality function - increments points dictionary based on plurality election system
 def plurality(ballots):
@@ -17,4 +17,4 @@ def plurality(ballots):
             else:
                 if ballot.index(cand) == 0:
                     points[cand] = points[cand] + 1 #increment candidate value
-    return(printWinners(points))
+    return printWinners(points)

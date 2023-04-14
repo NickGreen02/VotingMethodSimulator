@@ -4,13 +4,13 @@ def getLoser(points):
     for c in points:
         if (points.get(c) == minValue):
             loser = c
-    return(loser)
+    return loser
 
 #remove loser function - removes losing candidate from all ballots
 def removeLoser(ballots, loser):
     for ballot in ballots:
         ballot.remove(loser)
-    return(ballots)
+    return ballots
 
 #irv function - calculates winner based on IRV election system
 def irv(ballots):
@@ -29,7 +29,7 @@ def irv(ballots):
     for c in points:
         if points.get(c) > (numBallots/2):  #if majority, set flag var to true and print winner
             majorityCheck = True
-            return(c)
+            return c
         else:
             majorityCheck = False
     
@@ -38,4 +38,4 @@ def irv(ballots):
     if majorityCheck == False:
         loser = getLoser(points)
         newBallots = removeLoser(ballots, loser)
-        return(irv(newBallots))
+        return irv(newBallots)

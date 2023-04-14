@@ -7,7 +7,7 @@ def printWinners(points):
         if points.get(i) == maxValue:
             winString += i #if candidate points value is winning value, print winning candidate
 
-    return(winString)
+    return winString
 
 #process ballot function - assign points from ballots based on ranking
 def processBallot(points, ballot):
@@ -28,4 +28,4 @@ def borda(ballots):
     for ballot in ballots:
         processBallot(points, ballot)
     
-    return(printWinners(points))
+    return printWinners(points)
