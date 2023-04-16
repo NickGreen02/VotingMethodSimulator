@@ -18,6 +18,7 @@ def readVotes(f):
 
     return(votes)
 
+#menu option 1 - generate ballot files and show disagreement table
 def optionOne(num):
     generator.generateBallots(num)
     
@@ -44,6 +45,7 @@ def optionOne(num):
     tableCreator.createTable(disagreementValues)
     menu()
 
+#menu option 2 - user select an existing ballot file and election results displayed
 def optionTwo(f):
     ballotFile = open(f)
     votes = readVotes(ballotFile)
@@ -58,7 +60,7 @@ def optionTwo(f):
     irv(votes)
     menu()
 
-
+#display menu
 def menu():
     print("Menu:\n1. Generate ballot files - generate disagreement table\n2. Choose an existing ballot file - display voting method results of a single election\n3. Exit")
     menuChoice = int(input("> "))
@@ -74,6 +76,7 @@ def menu():
         print("Invalid menu choice")
         menu()
 
+#program title
 def initialDisplay():
     print("__      __   _   _                _____ _                 _       _             ")
     sleep(0.05)
@@ -93,4 +96,5 @@ def initialDisplay():
     sleep(0.05)
     menu()
 
+#initial function call
 initialDisplay()
