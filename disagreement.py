@@ -23,12 +23,12 @@ def calculateDisagreement(resultsArray):
         if i.get('borda') != i.get('irv'):
             bordaIRV += 1
 
-    pCdisagreement = str((pluralityCondorcet/numElections) * 100) + "%"
-    pBdisagreement = str((pluralityBorda/numElections) * 100) + "%"
-    pIdisagreement = str((pluralityIRV/numElections) * 100) + "%"
-    cBdisagreement = str((condorcetBorda/numElections) * 100) + "%"
-    cIdisagreement = str((condorcetIRV/numElections) * 100) + "%"
-    bIdisagreement = str((bordaIRV/numElections) * 100) + "%"
+    pCdisagreement = str(round((pluralityCondorcet/numElections) * 100, 2))
+    pBdisagreement = str(round((pluralityBorda/numElections) * 100, 2))
+    pIdisagreement = str(round((pluralityIRV/numElections) * 100, 2))
+    cBdisagreement = str(round((condorcetBorda/numElections) * 100, 2))
+    cIdisagreement = str(round((condorcetIRV/numElections) * 100, 2))
+    bIdisagreement = str(round((bordaIRV/numElections) * 100, 2))
 
     disagreementArray = [[pCdisagreement, '', ''], [pBdisagreement, cBdisagreement, ''], [pIdisagreement, cIdisagreement, bIdisagreement]]
 

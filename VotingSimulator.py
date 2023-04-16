@@ -4,6 +4,7 @@ import condorcet
 import borda
 import irv
 import disagreement
+import tableCreator
 
 #read votes function - returns array containing each ballot
 def readVotes(f):
@@ -34,7 +35,11 @@ def main():
         results = {'plurality': pluralityResult, 'condorcet': condorcetResult, 'borda': bordaResult, 'irv': irvResult}
         resultsArr.append(results)
     
-    print(disagreement.calculateDisagreement(resultsArr))
+    disagreementValues = disagreement.calculateDisagreement(resultsArr)
+    print(disagreementValues)
+
+    tableCreator.createTable(disagreementValues)
+    
 
 
 
