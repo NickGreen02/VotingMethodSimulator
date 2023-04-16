@@ -1,4 +1,4 @@
-from random import sample, randint
+from random import sample
 from os import mkdir
 
 def generateBallots(totalCandVariation):
@@ -18,7 +18,7 @@ def generateBallots(totalCandVariation):
     for i in candAscArr:
         candidates.append(chr(i))
     
-    for i in range(50):
+    for i in range(10000):
         textString = ""
         for x in range(100):
             if x < 99:
@@ -29,8 +29,3 @@ def generateBallots(totalCandVariation):
         file = open("./generator/ballotFiles/ballot" + str(i) + ".txt", "w")
         file.write(textString)
         file.close()
-
-def main():
-    generateBallots(4)
-
-main()

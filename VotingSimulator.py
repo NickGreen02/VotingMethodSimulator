@@ -1,8 +1,10 @@
 from os import listdir
+from time import sleep
 import plurality
 import condorcet
 import borda
 import irv
+import generator.generateBallots as generator
 import disagreement
 import tableCreator
 
@@ -16,7 +18,9 @@ def readVotes(f):
 
     return(votes)
 
-def main():
+def optionOne(num):
+    generator.generateBallots(num)
+    
     generatedPath = './generator/ballotFiles'
     
     files = listdir(generatedPath)
@@ -36,11 +40,57 @@ def main():
         resultsArr.append(results)
     
     disagreementValues = disagreement.calculateDisagreement(resultsArr)
-    print(disagreementValues)
 
     tableCreator.createTable(disagreementValues)
-    
+    menu()
+
+def optionTwo(f):
+    ballotFile = open(f)
+    votes = readVotes(ballotFile)
+    print("ELECTION RESULTS FOR:\n\n\n")
+    print("Plurality: ")
+    plurality(votes)
+    print("\nBorda count: ")
+    borda(votes)
+    print("\nCondorcet: ")
+    condorcet(votes)
+    print("\nIRV: ")
+    irv(votes)
+    menu()
 
 
+def menu():
+    print("Menu:\n1. Generate ballot files - generate disagreement table\n2. Choose an existing ballot file - display voting method results of a single election\n3. Exit")
+    menuChoice = int(input("> "))
+    if menuChoice == 1:
+        numCands = int(input("How many candidates per ballot would you like?: "))
+        optionOne(numCands)
+    elif menuChoice == 2:
+        fileName = input("Enter the file name for which you would like to get election results for: ")
+        optionTwo(fileName) 
+    elif menuChoice == 3:
+        exit()
+    else:
+        print("Invalid menu choice")
+        menu()
 
-main()
+def initialDisplay():
+    print("__      __   _   _                _____ _                 _       _             ")
+    sleep(0.05)
+    print("\ \    / /  | | (_)              / ____(_)               | |     | |            ")
+    sleep(0.05)
+    print(" \ \  / /__ | |_ _ _ __   __ _  | (___  _ _ __ ___  _   _| | __ _| |_ ___  _ __ ")
+    sleep(0.05)
+    print("  \ \/ / _ \| __| | '_ \ / _` |  \___ \| | '_ ` _ \| | | | |/ _` | __/ _ \| '__|")
+    sleep(0.05)
+    print("   \  / (_) | |_| | | | | (_| |  ____) | | | | | | | |_| | | (_| | || (_) | |   ")
+    sleep(0.05)
+    print("    \/ \___/ \__|_|_| |_|\__, | |_____/|_|_| |_| |_|\__,_|_|\__,_|\__\___/|_|   ")
+    sleep(0.05)
+    print("                          __/ |                                                 ")
+    sleep(0.05)
+    print("                         |___/                                                  ")
+    sleep(0.05)
+    menu()
+
+initialDisplay()
