@@ -20,6 +20,7 @@ def readVotes(f):
 
 #menu option 1 - generate ballot files and show disagreement table
 def optionOne(num):
+    print("PLEASE WAIT - this may take a while, depending on your system")
     generator.generateBallots(num)
     
     generatedPath = './generator/ballotFiles'
@@ -49,15 +50,14 @@ def optionOne(num):
 def optionTwo(f):
     ballotFile = open(f)
     votes = readVotes(ballotFile)
-    print("ELECTION RESULTS FOR:\n\n\n")
-    print("Plurality: ")
-    plurality(votes)
-    print("\nBorda count: ")
-    borda(votes)
-    print("\nCondorcet: ")
-    condorcet(votes)
-    print("\nIRV: ")
-    irv(votes)
+    print("\nELECTION RESULTS FOR:\n")
+    print("Plurality winner: " + plurality.plurality(votes))
+    print("\nBorda count winner: " + borda.borda(votes))
+    if condorcet.condorcet(votes) == '':
+        print("\nCondorcet winner: NO CONDORCET WINNER")
+    else:
+        print("\nCondorcet winner: " + condorcet.condorcet(votes))
+    print("\nIRV winner: " + irv.irv(votes))
     menu()
 
 #display menu
