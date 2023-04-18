@@ -2,6 +2,7 @@ from random import sample
 from os import mkdir
 
 def generateBallots(totalCandVariation):
+    #make folder for ballot files unless it already exists
     try:
         mkdir('./generator/ballotFiles')
     except FileExistsError:
@@ -12,12 +13,13 @@ def generateBallots(totalCandVariation):
     candAscArr = [65]
     candidates = []
 
+    #add candidates to candidates array via ascii addition
     for i in range(1,totalCandVariation):
         candAscArr.append(baseCandAsc + i)
-    
     for i in candAscArr:
         candidates.append(chr(i))
     
+    #generate the ballot files and their ballots
     for i in range(10000):
         textString = ""
         for x in range(100):
@@ -30,4 +32,5 @@ def generateBallots(totalCandVariation):
         file.write(textString)
         file.close()
     
+    #return the candidates array for logic checks in main program
     return candidates

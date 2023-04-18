@@ -9,6 +9,7 @@ def calculateDisagreement(resultsArray):
     condorcetIRV = 0
     bordaIRV = 0
 
+    #for loop to increment each disagreement value
     for i in resultsArray:
         if i.get('plurality') != i.get('condorcet'):
             pluralityCondorcet += 1
@@ -23,6 +24,7 @@ def calculateDisagreement(resultsArray):
         if i.get('borda') != i.get('irv'):
             bordaIRV += 1
 
+    #turn the disagreement integer values into disagreement percentages
     pCdisagreement = str(round(((pluralityCondorcet/numElections) * 100), 2))
     pBdisagreement = str(round(((pluralityBorda/numElections) * 100), 2))
     pIdisagreement = str(round(((pluralityIRV/numElections) * 100), 2))
@@ -30,6 +32,6 @@ def calculateDisagreement(resultsArray):
     cIdisagreement = str(round(((condorcetIRV/numElections) * 100), 2))
     bIdisagreement = str(round(((bordaIRV/numElections) * 100), 2))
 
+    #create array of disagreement percentages and return it, in the format the table creator program accepts
     disagreementArray = [[pCdisagreement, '', ''], [pBdisagreement, cBdisagreement, ''], [pIdisagreement, cIdisagreement, bIdisagreement]]
-
     return disagreementArray
