@@ -29,3 +29,5 @@ def generateBallots(totalCandVariation):
         file = open("./generator/ballotFiles/ballot" + str(i) + ".txt", "w")
         file.write(textString)
         file.close()
+    
+    return candidates

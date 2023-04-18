@@ -19,9 +19,9 @@ def readVotes(f):
     return(votes)
 
 #menu option 1 - generate ballot files and show disagreement table
-def optionOne(num):
+def optionOne(numberOfCands, numberOfBallots):
     print("PLEASE WAIT - this may take a while, depending on your system")
-    generator.generateBallots(num)
+    cands = generator.generateBallots(numberOfCands)
     
     generatedPath = './generator/ballotFiles'
     
@@ -32,6 +32,26 @@ def optionOne(num):
     for f in files:
         ballotFile = open(generatedPath + '/' + f)
         votes = readVotes(ballotFile)
+
+        #error checking
+        for ballot in votes:
+            if len(ballot) != numberOfCands:
+                print("Error: a ballot has been detected that does not have the number of candidates required - this may be due to user changes."
+                            + "\n\nYou will be taken back to the main menu\n")
+                sleep(2)
+                menu()
+            for cand in ballot:
+                if cand not in cands:
+                    print("Error: a candidate has been detected that is not part of the candidates list for this set of generated data."
+                          + "\n\nYou will be taken back to the main menu\n")
+                    sleep(2)
+                    menu()
+        if len(votes) != numberOfBallots:
+            print("Error: the number of elections detected is different from the number of elections requested - this may be due to user changes."
+                          + "\n\nYou will be taken back to the main menu\n")
+            sleep(2)
+            menu()
+
         
         pluralityResult = plurality.plurality(votes)
         condorcetResult = condorcet.condorcet(votes)
@@ -47,31 +67,70 @@ def optionOne(num):
     menu()
 
 #menu option 2 - user select an existing ballot file and election results displayed
-def optionTwo(f):
-    ballotFile = open(f)
-    votes = readVotes(ballotFile)
-    print("\nELECTION RESULTS FOR:\n")
-    print("Plurality winner: " + plurality.plurality(votes))
-    print("\nBorda count winner: " + borda.borda(votes))
-    if condorcet.condorcet(votes) == '':
-        print("\nCondorcet winner: NO CONDORCET WINNER")
-    else:
-        print("\nCondorcet winner: " + condorcet.condorcet(votes))
-    print("\nIRV winner: " + irv.irv(votes))
-    menu()
+def optionTwo(f, numberOfCands, cands, numberOfBallots):
+    
+    #check that file exists
+    try:
+        ballotFile = open(f)
+        votes = readVotes(ballotFile)
+
+        #error checking
+        for ballot in votes:
+            if len(ballot) != numberOfCands:
+                print("Error: a ballot has been detected that does not have the number of candidates required - this may be due to user changes."
+                                + "\n\nYou will be taken back to the main menu\n")
+                sleep(4)
+                menu()
+            for cand in ballot:
+                if cand not in cands:
+                    print("Error: a candidate has been detected that is not part of the candidates list for this set of generated data."
+                            + "\n\nYou will be taken back to the main menu\n")
+                    sleep(2)
+                    menu()
+        if len(votes) != numberOfBallots:
+            print("Error: the number of elections detected is different from the number of elections requested - this may be due to user changes."
+                            + "\n\nYou will be taken back to the main menu\n")
+            sleep(2)
+            menu()
+
+        print("\nELECTION RESULTS FOR:\n")
+        print("Plurality winner: " + plurality.plurality(votes))
+        print("\nBorda count winner: " + borda.borda(votes))
+        if condorcet.condorcet(votes) == '':
+            print("\nCondorcet winner: NO CONDORCET WINNER")
+        else:
+            print("\nCondorcet winner: " + condorcet.condorcet(votes))
+        print("\nIRV winner: " + irv.irv(votes) + "\n")
+        menu()
+    except FileNotFoundError:
+        print("Error: file does not exist in the current directory. Could this have been a typo?"
+              + "\n\nYou will be taken back to the main menu\n")
+        sleep(2)
+        menu()
 
 #display menu
 def menu():
     print("Menu:\n1. Generate ballot files - generate disagreement table\n2. Choose an existing ballot file - display voting method results of a single election\n3. Exit")
     menuChoice = int(input("> "))
+    
     if menuChoice == 1:
         numCands = int(input("How many candidates per ballot would you like?: "))
-        optionOne(numCands)
+        numBallots = int(input("How many ballots per election data file would you like?: "))
+        optionOne(numCands, numBallots)
+    
     elif menuChoice == 2:
         fileName = input("Enter the file name for which you would like to get election results for: ")
-        optionTwo(fileName) 
+        numCands = int(input("How many candidates per ballot are there in the data file?: "))
+        candidates = []
+        for i in range(numCands):
+            cand = input("Enter candidate " + str(i+1) + ": ")
+            candidates.append(cand)
+        numBallots = int(input("How many ballots are there in the data file?: "))
+        optionTwo(fileName, numCands, candidates, numBallots)
+    
     elif menuChoice == 3:
         exit()
+    
     else:
         print("Invalid menu choice")
         menu()
