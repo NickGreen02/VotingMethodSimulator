@@ -47,7 +47,7 @@ def optionOne(numberOfCands, numberOfBallots):
                     sleep(2)
                     menu()
         if len(votes) != numberOfBallots:
-            print("Error: the number of elections detected is different from the number of elections requested - this may be due to user changes."
+            print("Error: the number of ballots detected is different from the number of ballots requested - this may be due to user changes."
                           + "\n\nYou will be taken back to the main menu\n")
             sleep(2)
             menu()
@@ -88,7 +88,7 @@ def optionTwo(f, numberOfCands, cands, numberOfBallots):
                     sleep(2)
                     menu()
         if len(votes) != numberOfBallots:
-            print("Error: the number of elections detected is different from the number of elections requested - this may be due to user changes."
+            print("Error: the number of ballots detected is different from the number of ballots requested - this may be due to user changes."
                             + "\n\nYou will be taken back to the main menu\n")
             sleep(2)
             menu()
