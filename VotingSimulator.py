@@ -1,12 +1,12 @@
 from os import listdir
 from time import sleep
-import plurality
-import condorcet
-import borda
-import irv
-import generator.generateBallots as generator
-import disagreement
-import tableCreator
+import modules.votingMethods.plurality as plurality
+import modules.votingMethods.condorcet as condorcet
+import modules.votingMethods.borda as borda
+import modules.votingMethods.irv as irv
+import modules.generator.generateBallots as generator
+import modules.disagreement as disagreement
+import modules.tableCreator as tableCreator
 
 #read votes function - returns array containing each ballot
 def readVotes(f):
