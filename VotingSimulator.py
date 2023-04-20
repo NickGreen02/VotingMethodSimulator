@@ -21,9 +21,9 @@ def readVotes(f):
 #menu option 1 - generate ballot files and show disagreement table
 def optionOne(numberOfCands, numberOfBallots):
     print("PLEASE WAIT - this may take a while, depending on your system")
-    cands = generator.generateBallots(numberOfCands)
+    cands = generator.generateBallots(numberOfCands, numberOfBallots)
     
-    generatedPath = './generator/ballotFiles'
+    generatedPath = './modules/generator/ballotFiles'
     
     files = listdir(generatedPath)
     
@@ -66,8 +66,53 @@ def optionOne(numberOfCands, numberOfBallots):
     tableCreator.createTable(disagreementValues)
     menu()
 
-#menu option 2 - user select an existing ballot file and election results displayed
-def optionTwo(f, numberOfCands, cands, numberOfBallots):
+#menu option 2 - user selected folder and show disagreement table
+def optionTwo(numberOfCands, numberOfBallots, cands, folderPath):
+    print("PLEASE WAIT - this may take a while, depending on your system")
+
+    files = listdir(folderPath)
+    
+    resultsArr = []
+
+    for f in files:
+        ballotFile = open(folderPath + '/' + f)
+        votes = readVotes(ballotFile)
+
+        #error checking
+        for ballot in votes:
+            if len(ballot) != numberOfCands:
+                print("Error: a ballot has been detected that does not have the number of candidates required - this may be due to user changes."
+                            + "\n\nYou will be taken back to the main menu\n")
+                sleep(2)
+                menu()
+            for cand in ballot:
+                if cand not in cands:
+                    print("Error: a candidate has been detected that is not part of the candidates list for this set of generated data."
+                          + "\n\nYou will be taken back to the main menu\n")
+                    sleep(2)
+                    menu()
+        if len(votes) != numberOfBallots:
+            print("Error: the number of ballots detected is different from the number of ballots requested - this may be due to user changes."
+                          + "\n\nYou will be taken back to the main menu\n")
+            sleep(2)
+            menu()
+
+        
+        pluralityResult = plurality.plurality(votes)
+        condorcetResult = condorcet.condorcet(votes)
+        bordaResult = borda.borda(votes)
+        irvResult = irv.irv(votes)
+
+        results = {'plurality': pluralityResult, 'condorcet': condorcetResult, 'borda': bordaResult, 'irv': irvResult}
+        resultsArr.append(results)
+    
+    disagreementValues = disagreement.calculateDisagreement(resultsArr)
+
+    tableCreator.createTable(disagreementValues)
+    menu()
+
+#menu option 3 - user select a single existing ballot file and election results displayed
+def optionThree(f, numberOfCands, cands, numberOfBallots):
     
     #check that file exists
     try:
@@ -110,25 +155,35 @@ def optionTwo(f, numberOfCands, cands, numberOfBallots):
 
 #display menu
 def menu():
-    print("Menu:\n1. Generate ballot files - generate disagreement table\n2. Choose an existing ballot file - display voting method results of a single election\n3. Exit")
+    print("Menu:\n1. Generate ballot files and generate a disagreement table\n2. Select an existing folder of ballot files to generate a disagreement table for\n3. Choose a single existing ballot file - display voting method results of a single election\n4. Exit")
     menuChoice = int(input("> "))
     
     if menuChoice == 1:
         numCands = int(input("How many candidates per ballot would you like?: "))
         numBallots = int(input("How many ballots per election data file would you like?: "))
         optionOne(numCands, numBallots)
-    
+
     elif menuChoice == 2:
-        fileName = input("Enter the file name for which you would like to get election results for: ")
+        dir = input("Enter the folder path you want to use: ")
+        numCands = int(input("How many candidates per ballot are there?: "))
+        candidates = []
+        for i in range(numCands):
+            cand = input("Enter candidate " + str(i+1) + ": ")
+            candidates.append(cand)
+        numBallots = int(input("How many ballots per election data are there?: "))
+        optionTwo(numCands, numBallots, candidates, dir)
+    
+    elif menuChoice == 3:
+        fileName = input("Enter the path to the file for which you would like to get election results for: ")
         numCands = int(input("How many candidates per ballot are there in the data file?: "))
         candidates = []
         for i in range(numCands):
             cand = input("Enter candidate " + str(i+1) + ": ")
             candidates.append(cand)
         numBallots = int(input("How many ballots are there in the data file?: "))
-        optionTwo(fileName, numCands, candidates, numBallots)
+        optionThree(fileName, numCands, candidates, numBallots)
     
-    elif menuChoice == 3:
+    elif menuChoice == 4:
         exit()
     
     else:

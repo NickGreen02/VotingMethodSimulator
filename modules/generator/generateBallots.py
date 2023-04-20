@@ -1,10 +1,10 @@
 from random import sample
 from os import mkdir
 
-def generateBallots(totalCandVariation):
+def generateBallots(totalCandVariation, numBallots):
     #make folder for ballot files unless it already exists
     try:
-        mkdir('./generator/ballotFiles')
+        mkdir('./modules/generator/ballotFiles')
     except FileExistsError:
         print("ballots folder already exists")
 
@@ -22,13 +22,13 @@ def generateBallots(totalCandVariation):
     #generate the ballot files and their ballots
     for i in range(10000):
         textString = ""
-        for x in range(100):
+        for x in range(numBallots):
             if x < 99:
                 textString += (" ".join(sample(candidates, len(candidates))) + '\n')
             else:
                 textString += (" ".join(sample(candidates, len(candidates))))
     
-        file = open("./generator/ballotFiles/ballot" + str(i) + ".txt", "w")
+        file = open("./modules/generator/ballotFiles/ballot" + str(i) + ".txt", "w")
         file.write(textString)
         file.close()
     
