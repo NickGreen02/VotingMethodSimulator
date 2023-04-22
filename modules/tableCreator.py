@@ -3,7 +3,7 @@ import plotly.colors as pc
 import numpy as np
 
 def createTable(vals):
-    colours = pc.n_colors('rgb(255, 200, 200)', 'rgb(180, 0, 0)', 101, colortype='rgb')
+    colours = pc.n_colors('rgb(255, 210, 210)', 'rgb(190, 0, 0)', 101, colortype='rgb')
 
     a = round(int(float((vals[0])[0])))
     b = round(int(float((vals[1])[0])))
