@@ -67,7 +67,7 @@ def optionOne(numberOfCands, numberOfBallots):
     menu()
 
 #menu option 2 - user selected folder and show disagreement table
-def optionTwo(numberOfCands, numberOfBallots, cands, folderPath):
+def optionTwo(numberOfCands, cands, folderPath):
     print("PLEASE WAIT - this may take a while, depending on your system")
 
     files = listdir(folderPath)
@@ -91,11 +91,6 @@ def optionTwo(numberOfCands, numberOfBallots, cands, folderPath):
                           + "\n\nYou will be taken back to the main menu\n")
                     sleep(2)
                     menu()
-        if len(votes) != numberOfBallots:
-            print("Error: the number of ballots detected is different from the number of ballots requested - this may be due to user changes."
-                          + "\n\nYou will be taken back to the main menu\n")
-            sleep(2)
-            menu()
 
         
         pluralityResult = plurality.plurality(votes)
@@ -170,8 +165,7 @@ def menu():
         for i in range(numCands):
             cand = input("Enter candidate " + str(i+1) + ": ")
             candidates.append(cand)
-        numBallots = int(input("How many ballots per election data are there?: "))
-        optionTwo(numCands, numBallots, candidates, dir)
+        optionTwo(numCands, candidates, dir)
     
     elif menuChoice == 3:
         fileName = input("Enter the path to the file for which you would like to get election results for: ")
