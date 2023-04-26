@@ -151,14 +151,14 @@ def optionThree(f, numberOfCands, cands, numberOfBallots):
 #display menu
 def menu():
     print("Menu:\n1. Generate ballot files and generate a disagreement table\n2. Select an existing folder of ballot files to generate a disagreement table for\n3. Choose a single existing ballot file - display voting method results of a single election\n4. Exit")
-    menuChoice = int(input("> "))
+    menuChoice = input("> ")
     
-    if menuChoice == 1:
+    if menuChoice == "1":
         numCands = int(input("How many candidates per ballot would you like?: "))
         numBallots = int(input("How many ballots per election data file would you like?: "))
         optionOne(numCands, numBallots)
 
-    elif menuChoice == 2:
+    elif menuChoice == "2":
         dir = input("Enter the folder path you want to use: ")
         numCands = int(input("How many candidates per ballot are there?: "))
         candidates = []
@@ -167,7 +167,7 @@ def menu():
             candidates.append(cand)
         optionTwo(numCands, candidates, dir)
     
-    elif menuChoice == 3:
+    elif menuChoice == "3":
         fileName = input("Enter the path to the file for which you would like to get election results for: ")
         numCands = int(input("How many candidates per ballot are there in the data file?: "))
         candidates = []
@@ -177,7 +177,7 @@ def menu():
         numBallots = int(input("How many ballots are there in the data file?: "))
         optionThree(fileName, numCands, candidates, numBallots)
     
-    elif menuChoice == 4:
+    elif menuChoice == "4":
         exit()
     
     else:
