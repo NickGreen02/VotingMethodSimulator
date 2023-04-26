@@ -6,7 +6,7 @@ def generateBallots(totalCandVariation, numBallots):
     try:
         mkdir('./modules/generator/ballotFiles')
     except FileExistsError:
-        print("ballots folder already exists")
+        print("Ballots folder detected - any existing files will be replaced.")
 
 
     baseCandAsc = 65
