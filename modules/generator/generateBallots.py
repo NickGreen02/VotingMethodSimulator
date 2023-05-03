@@ -23,7 +23,7 @@ def generate_ballots(total_cand_variation, num_ballots):
     for i in range(10000):
         text_string = ""
         for x in range(num_ballots):
-            if x < 99:
+            if x < num_ballots - 1:
                 text_string += (" ".join(sample(candidates, len(candidates))) + '\n')
             else:
                 text_string += (" ".join(sample(candidates, len(candidates))))
