@@ -68,6 +68,7 @@ def option_one(number_of_cands, number_of_ballots):
     disagreement_values = disagreement.calculate_disagreement(results_arr)
 
     tableCreator.create_table(disagreement_values)
+    sleep(2)
     menu()
 
 #menu option 2 - user selected folder and show disagreement table
@@ -111,9 +112,11 @@ def option_two(number_of_cands, cands, folder_path):
         disagreement_values = disagreement.calculate_disagreement(results_arr)
 
         tableCreator.create_table(disagreement_values)
+        sleep(2)
         menu()
     except FileNotFoundError:
         print("\nFile path not found, sending you back to the main menu.")
+        sleep(2)
         menu()
 
 #menu option 3 - user select a single existing ballot file and election results displayed
@@ -130,7 +133,7 @@ def option_three(f, number_of_cands, cands, number_of_ballots):
                 print("Error: a ballot has been detected that does not have the number of " +
                     "candidates required - this may be due to user changes." +
                     "\n\nYou will be taken back to the main menu\n")
-                sleep(4)
+                sleep(2)
                 menu()
             for cand in ballot:
                 if cand not in cands:
@@ -154,6 +157,7 @@ def option_three(f, number_of_cands, cands, number_of_ballots):
         else:
             print("\nCondorcet winner: " + condorcet.condorcet(votes))
         print("\nIRV winner: " + irv.irv(votes) + "\n")
+        sleep(2)
         menu()
     except FileNotFoundError:
         print("Error: file does not exist in the current directory. Could this have been a typo?"
@@ -175,10 +179,11 @@ def menu():
             option_one(num_cands, num_ballots)
         except ValueError:
             print("\nInvalid input. Sending you back to main menu.")
+            sleep(2)
             menu()
 
     elif menu_choice == "2":
-        path = input("Enter the folder path you want to use: ")
+        path = input("Enter the folder path you want to use (must be a relative path e.g. './testdata/ballotfiles'): ")
         try:
             num_cands = int(input("How many candidates per ballot are there?: "))
             candidates = []
@@ -188,10 +193,12 @@ def menu():
             option_two(num_cands, candidates, path)
         except ValueError:
             print("\nInvalid input. Sending you back to main menu.")
+            sleep(2)
             menu()
 
     elif menu_choice == "3":
-        file_name = input("Enter the path to the file for which you would like to get election results for: ")
+        file_name = input("Enter the path to the file for which you would like to get election results for " +
+                          "(must be a relative path e.g. './ballots.txt'): ")
         try:
             num_cands = int(input("How many candidates per ballot are there in the data file?: "))
             candidates = []
@@ -202,6 +209,7 @@ def menu():
             option_three(file_name, num_cands, candidates, num_ballots)
         except ValueError:
             print("\nInvalid input. Sending you back to main menu.")
+            sleep(2)
             menu()
 
     elif menu_choice == "4":
@@ -209,6 +217,7 @@ def menu():
 
     else:
         print("\nInvalid menu choice")
+        sleep(2)
         menu()
 
 #program title
