@@ -9,7 +9,7 @@ import modules.disagreement as disagreement
 import modules.tableCreator as tableCreator
 
 #read votes function - returns array containing each ballot
-def readVotes(f):
+def read_votes(f):
     lines = f.read().splitlines()
     votes = []
 
@@ -19,117 +19,127 @@ def readVotes(f):
     return(votes)
 
 #menu option 1 - generate ballot files and show disagreement table
-def optionOne(numberOfCands, numberOfBallots):
+def option_one(number_of_cands, number_of_ballots):
     print("PLEASE WAIT - this may take a while, depending on your system")
-    cands = generator.generateBallots(numberOfCands, numberOfBallots)
-    
-    generatedPath = './modules/generator/ballotFiles'
-    
-    files = listdir(generatedPath)
-    
-    resultsArr = []
+    cands = generator.generate_ballots(number_of_cands, number_of_ballots)
+
+    generated_path = './modules/generator/ballotFiles'
+
+    files = listdir(generated_path)
+
+    results_arr = []
 
     for f in files:
-        ballotFile = open(generatedPath + '/' + f)
-        votes = readVotes(ballotFile)
+        ballot_file = open(generated_path + '/' + f)
+        votes = read_votes(ballot_file)
 
         #error checking
         for ballot in votes:
-            if len(ballot) != numberOfCands:
-                print("Error: a ballot has been detected that does not have the number of candidates required - this may be due to user changes."
-                            + "\n\nYou will be taken back to the main menu\n")
+            if len(ballot) != number_of_cands:
+                print("Error: a ballot has been detected that does not have the number of " +
+                    "candidates required - this may be due to user changes." +
+                    "\n\nYou will be taken back to the main menu\n")
                 sleep(2)
                 menu()
             for cand in ballot:
                 if cand not in cands:
-                    print("Error: a candidate has been detected that is not part of the candidates list for this set of generated data."
-                          + "\n\nYou will be taken back to the main menu\n")
+                    print("Error: a candidate has been detected that is not part of the " +
+                        "candidates list for this set of generated data." +
+                        "\n\nYou will be taken back to the main menu\n")
                     sleep(2)
                     menu()
-        if len(votes) != numberOfBallots:
-            print("Error: the number of ballots detected is different from the number of ballots requested - this may be due to user changes."
-                          + "\n\nYou will be taken back to the main menu\n")
+        if len(votes) != number_of_ballots:
+            print("Error: the number of ballots detected is different from the " +
+                "number of ballots requested - this may be due to user changes." +
+                "\n\nYou will be taken back to the main menu\n")
             sleep(2)
             menu()
 
-        
-        pluralityResult = plurality.plurality(votes)
-        condorcetResult = condorcet.condorcet(votes)
-        bordaResult = borda.borda(votes)
-        irvResult = irv.irv(votes)
 
-        results = {'plurality': pluralityResult, 'condorcet': condorcetResult, 'borda': bordaResult, 'irv': irvResult}
-        resultsArr.append(results)
-    
-    disagreementValues = disagreement.calculateDisagreement(resultsArr)
+        plurality_result = plurality.plurality(votes)
+        condorcet_result = condorcet.condorcet(votes)
+        borda_result = borda.borda(votes)
+        irv_result = irv.irv(votes)
 
-    tableCreator.createTable(disagreementValues)
+        results = {'plurality': plurality_result, 'condorcet': condorcet_result,
+                   'borda': borda_result, 'irv': irv_result}
+        results_arr.append(results)
+
+    disagreement_values = disagreement.calculate_disagreement(results_arr)
+
+    tableCreator.create_table(disagreement_values)
     menu()
 
 #menu option 2 - user selected folder and show disagreement table
-def optionTwo(numberOfCands, cands, folderPath):
+def option_two(number_of_cands, cands, folder_path):
     print("PLEASE WAIT - this may take a while, depending on your system")
 
-    files = listdir(folderPath)
-    
-    resultsArr = []
+    files = listdir(folder_path)
+
+    results_arr = []
 
     for f in files:
-        ballotFile = open(folderPath + '/' + f)
-        votes = readVotes(ballotFile)
+        ballot_file = open(folder_path + '/' + f)
+        votes = read_votes(ballot_file)
 
         #error checking
         for ballot in votes:
-            if len(ballot) != numberOfCands:
-                print("Error: a ballot has been detected that does not have the number of candidates required - this may be due to user changes."
-                            + "\n\nYou will be taken back to the main menu\n")
+            if len(ballot) != number_of_cands:
+                print("Error: a ballot has been detected that does not have the number of " +
+                    "candidates required - this may be due to user changes." +
+                    "\n\nYou will be taken back to the main menu\n")
                 sleep(2)
                 menu()
             for cand in ballot:
                 if cand not in cands:
-                    print("Error: a candidate has been detected that is not part of the candidates list for this set of generated data."
-                          + "\n\nYou will be taken back to the main menu\n")
+                    print("Error: a candidate has been detected that is not part of the " +
+                        "candidates list for this set of data." +
+                        "\n\nYou will be taken back to the main menu\n")
                     sleep(2)
                     menu()
 
-        
-        pluralityResult = plurality.plurality(votes)
-        condorcetResult = condorcet.condorcet(votes)
-        bordaResult = borda.borda(votes)
-        irvResult = irv.irv(votes)
 
-        results = {'plurality': pluralityResult, 'condorcet': condorcetResult, 'borda': bordaResult, 'irv': irvResult}
-        resultsArr.append(results)
-    
-    disagreementValues = disagreement.calculateDisagreement(resultsArr)
+        plurality_result = plurality.plurality(votes)
+        condorcet_result = condorcet.condorcet(votes)
+        borda_result = borda.borda(votes)
+        irv_result = irv.irv(votes)
 
-    tableCreator.createTable(disagreementValues)
+        results = {'plurality': plurality_result, 'condorcet': condorcet_result,
+                   'borda': borda_result, 'irv': irv_result}
+        results_arr.append(results)
+
+    disagreement_values = disagreement.calculate_disagreement(results_arr)
+
+    tableCreator.create_table(disagreement_values)
     menu()
 
 #menu option 3 - user select a single existing ballot file and election results displayed
-def optionThree(f, numberOfCands, cands, numberOfBallots):
-    
+def option_three(f, number_of_cands, cands, number_of_ballots):
+
     #check that file exists
     try:
-        ballotFile = open(f)
-        votes = readVotes(ballotFile)
+        ballot_file = open(f)
+        votes = read_votes(ballot_file)
 
         #error checking
         for ballot in votes:
-            if len(ballot) != numberOfCands:
-                print("Error: a ballot has been detected that does not have the number of candidates required - this may be due to user changes."
-                                + "\n\nYou will be taken back to the main menu\n")
+            if len(ballot) != number_of_cands:
+                print("Error: a ballot has been detected that does not have the number of " +
+                    "candidates required - this may be due to user changes." +
+                    "\n\nYou will be taken back to the main menu\n")
                 sleep(4)
                 menu()
             for cand in ballot:
                 if cand not in cands:
-                    print("Error: a candidate has been detected that is not part of the candidates list for this set of generated data."
-                            + "\n\nYou will be taken back to the main menu\n")
+                    print("Error: a candidate has been detected that is not part of the " +
+                        "candidates list for this set of generated data." +
+                        "\n\nYou will be taken back to the main menu\n")
                     sleep(2)
                     menu()
-        if len(votes) != numberOfBallots:
-            print("Error: the number of ballots detected is different from the number of ballots requested - this may be due to user changes."
-                            + "\n\nYou will be taken back to the main menu\n")
+        if len(votes) != number_of_ballots:
+            print("Error: the number of ballots detected is different from the " +
+                "number of ballots requested - this may be due to user changes." +
+                "\n\nYou will be taken back to the main menu\n")
             sleep(2)
             menu()
 
@@ -150,42 +160,44 @@ def optionThree(f, numberOfCands, cands, numberOfBallots):
 
 #display menu
 def menu():
-    print("Menu:\n1. Generate ballot files and generate a disagreement table\n2. Select an existing folder of ballot files to generate a disagreement table for\n3. Choose a single existing ballot file - display voting method results of a single election\n4. Exit")
-    menuChoice = input("> ")
-    
-    if menuChoice == "1":
-        numCands = int(input("How many candidates per ballot would you like?: "))
-        numBallots = int(input("How many ballots per election data file would you like?: "))
-        optionOne(numCands, numBallots)
+    print("Menu:\n1. Generate ballot files and generate a disagreement table" +
+          "\n2. Select an existing folder of ballot files to generate a disagreement table for" +
+          "\n3. Choose a single existing ballot file - display voting method results of a single election\n4. Exit")
+    menu_choice = input("> ")
 
-    elif menuChoice == "2":
-        dir = input("Enter the folder path you want to use: ")
-        numCands = int(input("How many candidates per ballot are there?: "))
+    if menu_choice == "1":
+        num_cands = int(input("How many candidates per ballot would you like?: "))
+        num_ballots = int(input("How many ballots per election data file would you like?: "))
+        option_one(num_cands, num_ballots)
+
+    elif menu_choice == "2":
+        path = input("Enter the folder path you want to use: ")
+        num_cands = int(input("How many candidates per ballot are there?: "))
         candidates = []
-        for i in range(numCands):
+        for i in range(num_cands):
             cand = input("Enter candidate " + str(i+1) + ": ")
             candidates.append(cand)
-        optionTwo(numCands, candidates, dir)
-    
-    elif menuChoice == "3":
-        fileName = input("Enter the path to the file for which you would like to get election results for: ")
-        numCands = int(input("How many candidates per ballot are there in the data file?: "))
+        option_two(num_cands, candidates, path)
+
+    elif menu_choice == "3":
+        file_name = input("Enter the path to the file for which you would like to get election results for: ")
+        num_cands = int(input("How many candidates per ballot are there in the data file?: "))
         candidates = []
-        for i in range(numCands):
+        for i in range(num_cands):
             cand = input("Enter candidate " + str(i+1) + ": ")
             candidates.append(cand)
-        numBallots = int(input("How many ballots are there in the data file?: "))
-        optionThree(fileName, numCands, candidates, numBallots)
-    
-    elif menuChoice == "4":
+        num_ballots = int(input("How many ballots are there in the data file?: "))
+        option_three(file_name, num_cands, candidates, num_ballots)
+
+    elif menu_choice == "4":
         exit()
-    
+
     else:
         print("Invalid menu choice")
         menu()
 
 #program title
-def initialDisplay():
+def initial_display():
     print("__      __   _   _                _____ _                 _       _             ")
     sleep(0.05)
     print("\ \    / /  | | (_)              / ____(_)               | |     | |            ")
@@ -205,4 +217,4 @@ def initialDisplay():
     menu()
 
 #initial function call
-initialDisplay()
+initial_display()

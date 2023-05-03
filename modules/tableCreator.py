@@ -2,7 +2,7 @@ import plotly.graph_objects as go
 import plotly.colors as pc
 import numpy as np
 
-def createTable(vals):
+def create_table(vals):
     colours = pc.n_colors('rgb(255, 210, 210)', 'rgb(190, 0, 0)', 101, colortype='rgb')
 
     a = round(int(float((vals[0])[0])))
@@ -22,8 +22,8 @@ def createTable(vals):
                     cells=dict(
                         values=[
                             ['Plurality', 'Condorcet', 'Borda'],
-                            [str((vals[0])[0]) + "%", "", ""], 
-                            [str((vals[1])[0]) + "%", str((vals[1])[1]) + "%", ""], 
+                            [str((vals[0])[0]) + "%", "", ""],
+                            [str((vals[1])[0]) + "%", str((vals[1])[1]) + "%", ""],
                             [str((vals[2])[0]) + "%", str((vals[2])[1]) + "%", str((vals[2])[2]) + "%"]
                             ],
                         fill_color=[

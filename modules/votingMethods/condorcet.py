@@ -21,37 +21,40 @@ def condorcet(ballots):
     points = {}
 
     #set all candidate and tie points to 0
-    startBal = ballots[0]
-    for cand in startBal:
+    start_bal = ballots[0]
+    for cand in start_bal:
         points.update({cand: 0})
         points.update({"tie"+cand: 0})
-    
+
     candidates = ballots[0]
-    numPairs = 0
+    num_pairs = 0
     for cand1 in candidates:
         for cand2 in candidates:
             if (cand2 != cand1) and (candidates.index(cand1) < candidates.index(cand2)):
-                numPairs += 1
+                num_pairs += 1
                 winner = head2head(ballots, cand1, cand2)
+                #if there is a winner in the head2head, increment winner points by 1
                 if winner != "tie":
-                    points[winner] += 1 #if there is a winner in the head2head, increment winner points by 1
-                else:   #otherwise, increment tie points for each candidate
-                    points["tie"+cand1] += 1   
+                    points[winner] += 1
+                #otherwise, increment tie points for each candidate
+                else:
+                    points["tie"+cand1] += 1
                     points["tie"+cand2] += 1
-    
+
     #get max value of points from dictionary
-    maxValue = max(points.values())
-    maxValCount = 0
+    max_value = max(points.values())
+    max_val_count = 0
 
     #iterate through dictionary, checking that there is only one candidate who wins
     for i in points:
-        if points.get(i) == maxValue:
-            maxValCount += 1
-    
+        if points.get(i) == max_value:
+            max_val_count += 1
+
     #if one winning candidate, iterate through dictionary printing the winner
-    if maxValCount == 1:
+    if max_val_count == 1:
         for c in points:
-            if (points.get(c) == maxValue) and (points.get("tie"+c) == 0):  #check that candidate points equal max points value and has no ties
+            #check that candidate points equal max points value and has no ties
+            if (points.get(c) == max_value) and (points.get("tie"+c) == 0):
                 return c
     else:
         return ''

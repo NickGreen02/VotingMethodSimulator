@@ -1,13 +1,13 @@
 #get loser function - returns the candidate with lowest first choices
-def getLoser(points):
-    minValue = min(points.values())
+def get_loser(points):
+    min_value = min(points.values())
     for c in points:
-        if (points.get(c) == minValue):
+        if (points.get(c) == min_value):
             loser = c
     return loser
 
 #remove loser function - removes losing candidate from all ballots
-def removeLoser(ballots, loser):
+def remove_loser(ballots, loser):
     for ballot in ballots:
         ballot.remove(loser)
     return ballots
@@ -15,8 +15,8 @@ def removeLoser(ballots, loser):
 #irv function - calculates winner based on IRV election system
 def irv(ballots):
     #check if a candidate has a majority - simple plurality style dictionary method
-    majorityCheck = False
-    numBallots = len(ballots)
+    majority_check = False
+    num_ballots = len(ballots)
     points = {}
     for ballot in ballots:
         for cand in ballot:
@@ -27,15 +27,16 @@ def irv(ballots):
                 if ballot.index(cand) == 0:
                     points[cand] = points[cand] + 1
     for c in points:
-        if points.get(c) > (numBallots/2):  #if majority, set flag var to true and print winner
-            majorityCheck = True
+        #if majority, set flag var to true and print winner
+        if points.get(c) > (num_ballots/2):
+            majority_check = True
             return c
         else:
-            majorityCheck = False
-    
+            majority_check = False
+
     #if no candidate has a majority, remove loser,
     #and call IRV algorithm again with new ballots
-    if majorityCheck == False:
-        loser = getLoser(points)
-        newBallots = removeLoser(ballots, loser)
-        return irv(newBallots)
+    if majority_check == False:
+        loser = get_loser(points)
+        new_ballots = remove_loser(ballots, loser)
+        return irv(new_ballots)

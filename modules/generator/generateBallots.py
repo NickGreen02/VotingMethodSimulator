@@ -1,7 +1,7 @@
 from random import sample
 from os import mkdir
 
-def generateBallots(totalCandVariation, numBallots):
+def generate_ballots(total_cand_variation, num_ballots):
     #make folder for ballot files unless it already exists
     try:
         mkdir('./modules/generator/ballotFiles')
@@ -9,28 +9,28 @@ def generateBallots(totalCandVariation, numBallots):
         print("Ballots folder detected - any existing files will be replaced.")
 
 
-    baseCandAsc = 65
-    candAscArr = [65]
+    base_cand_asc = 65
+    cand_asc_arr = [65]
     candidates = []
 
     #add candidates to candidates array via ascii addition
-    for i in range(1,totalCandVariation):
-        candAscArr.append(baseCandAsc + i)
-    for i in candAscArr:
+    for i in range(1,total_cand_variation):
+        cand_asc_arr.append(base_cand_asc + i)
+    for i in cand_asc_arr:
         candidates.append(chr(i))
-    
+
     #generate the ballot files and their ballots
     for i in range(10000):
-        textString = ""
-        for x in range(numBallots):
+        text_string = ""
+        for x in range(num_ballots):
             if x < 99:
-                textString += (" ".join(sample(candidates, len(candidates))) + '\n')
+                text_string += (" ".join(sample(candidates, len(candidates))) + '\n')
             else:
-                textString += (" ".join(sample(candidates, len(candidates))))
-    
-        file = open("./modules/generator/ballotFiles/ballot" + str(i) + ".txt", "w")
-        file.write(textString)
-        file.close()
-    
+                text_string += (" ".join(sample(candidates, len(candidates))))
+
+        f = open("./modules/generator/ballotFiles/ballot" + str(i) + ".txt", "w")
+        f.write(text_string)
+        f.close()
+
     #return the candidates array for logic checks in main program
     return candidates
