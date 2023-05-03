@@ -72,46 +72,49 @@ def option_one(number_of_cands, number_of_ballots):
 
 #menu option 2 - user selected folder and show disagreement table
 def option_two(number_of_cands, cands, folder_path):
-    print("PLEASE WAIT - this may take a while, depending on your system")
+    try:
+        print("PLEASE WAIT - this may take a while, depending on your system")
+        files = listdir(folder_path)
 
-    files = listdir(folder_path)
+        results_arr = []
 
-    results_arr = []
+        for f in files:
+            ballot_file = open(folder_path + '/' + f)
+            votes = read_votes(ballot_file)
 
-    for f in files:
-        ballot_file = open(folder_path + '/' + f)
-        votes = read_votes(ballot_file)
-
-        #error checking
-        for ballot in votes:
-            if len(ballot) != number_of_cands:
-                print("Error: a ballot has been detected that does not have the number of " +
-                    "candidates required - this may be due to user changes." +
-                    "\n\nYou will be taken back to the main menu\n")
-                sleep(2)
-                menu()
-            for cand in ballot:
-                if cand not in cands:
-                    print("Error: a candidate has been detected that is not part of the " +
-                        "candidates list for this set of data." +
+            #error checking
+            for ballot in votes:
+                if len(ballot) != number_of_cands:
+                    print("Error: a ballot has been detected that does not have the number of " +
+                        "candidates required - this may be due to user changes." +
                         "\n\nYou will be taken back to the main menu\n")
                     sleep(2)
                     menu()
+                for cand in ballot:
+                    if cand not in cands:
+                        print("Error: a candidate has been detected that is not part of the " +
+                            "candidates list for this set of data." +
+                            "\n\nYou will be taken back to the main menu\n")
+                        sleep(2)
+                        menu()
 
 
-        plurality_result = plurality.plurality(votes)
-        condorcet_result = condorcet.condorcet(votes)
-        borda_result = borda.borda(votes)
-        irv_result = irv.irv(votes)
+            plurality_result = plurality.plurality(votes)
+            condorcet_result = condorcet.condorcet(votes)
+            borda_result = borda.borda(votes)
+            irv_result = irv.irv(votes)
 
-        results = {'plurality': plurality_result, 'condorcet': condorcet_result,
-                   'borda': borda_result, 'irv': irv_result}
-        results_arr.append(results)
+            results = {'plurality': plurality_result, 'condorcet': condorcet_result,
+                    'borda': borda_result, 'irv': irv_result}
+            results_arr.append(results)
 
-    disagreement_values = disagreement.calculate_disagreement(results_arr)
+        disagreement_values = disagreement.calculate_disagreement(results_arr)
 
-    tableCreator.create_table(disagreement_values)
-    menu()
+        tableCreator.create_table(disagreement_values)
+        menu()
+    except FileNotFoundError:
+        print("\nFile path not found, sending you back to the main menu.")
+        menu()
 
 #menu option 3 - user select a single existing ballot file and election results displayed
 def option_three(f, number_of_cands, cands, number_of_ballots):
@@ -166,34 +169,46 @@ def menu():
     menu_choice = input("> ")
 
     if menu_choice == "1":
-        num_cands = int(input("How many candidates per ballot would you like?: "))
-        num_ballots = int(input("How many ballots per election data file would you like?: "))
-        option_one(num_cands, num_ballots)
+        try:
+            num_cands = int(input("How many candidates per ballot would you like?: "))
+            num_ballots = int(input("How many ballots per election data file would you like?: "))
+            option_one(num_cands, num_ballots)
+        except ValueError:
+            print("\nInvalid input. Sending you back to main menu.")
+            menu()
 
     elif menu_choice == "2":
         path = input("Enter the folder path you want to use: ")
-        num_cands = int(input("How many candidates per ballot are there?: "))
-        candidates = []
-        for i in range(num_cands):
-            cand = input("Enter candidate " + str(i+1) + ": ")
-            candidates.append(cand)
-        option_two(num_cands, candidates, path)
+        try:
+            num_cands = int(input("How many candidates per ballot are there?: "))
+            candidates = []
+            for i in range(num_cands):
+                cand = input("Enter candidate " + str(i+1) + ": ")
+                candidates.append(cand)
+            option_two(num_cands, candidates, path)
+        except ValueError:
+            print("\nInvalid input. Sending you back to main menu.")
+            menu()
 
     elif menu_choice == "3":
         file_name = input("Enter the path to the file for which you would like to get election results for: ")
-        num_cands = int(input("How many candidates per ballot are there in the data file?: "))
-        candidates = []
-        for i in range(num_cands):
-            cand = input("Enter candidate " + str(i+1) + ": ")
-            candidates.append(cand)
-        num_ballots = int(input("How many ballots are there in the data file?: "))
-        option_three(file_name, num_cands, candidates, num_ballots)
+        try:
+            num_cands = int(input("How many candidates per ballot are there in the data file?: "))
+            candidates = []
+            for i in range(num_cands):
+                cand = input("Enter candidate " + str(i+1) + ": ")
+                candidates.append(cand)
+            num_ballots = int(input("How many ballots are there in the data file?: "))
+            option_three(file_name, num_cands, candidates, num_ballots)
+        except ValueError:
+            print("\nInvalid input. Sending you back to main menu.")
+            menu()
 
     elif menu_choice == "4":
         exit()
 
     else:
-        print("Invalid menu choice")
+        print("\nInvalid menu choice")
         menu()
 
 #program title
