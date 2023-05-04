@@ -37,5 +37,5 @@ def create_table(vals):
                         )
                     )
                 ])
-    fig.update_layout(width=1000, height=1000)
+    fig.update_layout(width=1000, height=1000, title="Disagreement Table")
     fig.show()
