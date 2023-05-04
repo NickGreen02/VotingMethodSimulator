@@ -8,6 +8,7 @@ A lightweight Python program for simulating elections and facilitating compariso
 
 ## Usage
 To run the program, if open with Python is your system's default for .py files, double click VotingMethodSimulator.py. Otherwise, right click VotingMethodSimulator.py > Open with > Python.
+
 The program allows the user to select from its main menu to 
 1. Generate election data and a disagreement table
 2. Use an existing folder of election data and generate a disagreement table
