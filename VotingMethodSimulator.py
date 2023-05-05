@@ -198,7 +198,7 @@ def menu():
 
     elif menu_choice == "3":
         file_name = input("Enter the path to the file for which you would like to get election results for " +
-                          "(must be a relative path e.g. './ballots.txt'): ")
+                          "(use a relative path if in another location e.g. './testdata/ballots.txt'): ")
         try:
             num_cands = int(input("How many candidates per ballot are there in the data file?: "))
             candidates = []
